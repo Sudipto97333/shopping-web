@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Website - DSA Powered</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        input,
+        button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        #productList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .product {
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            width: 220px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            text-align: center;
+            transition: 0.3s;
+        }
+        
+        .product:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: #ffffff;
+        }
+        
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🛒 Smart Shop - Search & Sort</h1>
+    <div class="container">
+        <input type="text" id="searchInput" placeholder="Search product by name">
+        <button onclick="searchProduct()">Search</button>
+        <button onclick="sortProducts()">Sort by Price (Low to High)</button>
+
+        <div id="productList"></div>
+    </div>
+
+    <script>
+        let products = [{
+            name: "Laptop",
+            price: 800,
+            image: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcR0egM9A5adJCeqOOFIlEufbJDsVtIs0E3IvM_vNBisBMrRLoz--WzT8RGwl_jATFc19NfcxPOpLQYO9iYRQ8V_yV06886yYmjni7aZ4l0"
+        }, {
+            name: "Phone",
+            price: 500,
+            image: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSNle91UspIWLSAy50FgV4y5SnA_EszjE0gUqWJTLfopnv-5KSb3Qvn8CiKTnYeRXjfNaS1H8-wPDG3Z5gDcwd1nQq-y6hlG2rDmT1ihu0lzvc0IuQSXFNyfw"
+        }, {
+            name: "Headphones",
+            price: 150,
+            image: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRnljvvduPURJMYjZNBtlEmPdr-8nJRLqOAfkhBbJSYrDt2dLKYrXYVq9uzo7WUwz-G2gOMXbz6-ANy_cd1mOJQJ7NBLxg2mTRcPSdVW_GvIVwGyDu5lfae"
+        }, {
+            name: "Keyboard",
+            price: 70,
+            image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRAbCyLA375_koHQRbGE5s9X_0vlXAgKH9qDP-bX6CUu25fSzrCne1rlwTae3yB20sHgdFqLK2AtL5JveLvO1_-5EemdHT1nRK_qQU71wLZ5Wu6CDohxesuUw"
+        }, {
+            name: "Mouse",
+            price: 40,
+            image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRbz-aBimrpbVZALpmhkbs7dQCJxyyP-sbFvIC6s6tp9BuFlcMFo_hLIfUgJuSS1yo3jJjbAKcyfRWCjJKKQAiO4V9sBqKg9IFd_w9Fr7nRuGUwQxq193Xfi-4"
+        }, {
+            name: "Smartwatch",
+            price: 200,
+            image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcT7j1zpS25_hoSnP3E7kD-EL2b9vBtVDcVbjBJMYNstXwRzbJ2TFfjXSdzcE4YNLBuNHlf0BFwRfHOmL4yyft41cMQgvrjJk_oGwfvdTvG8zoD6CLeZtWbX"
+        }];
+
+        function displayProducts(productArray) {
+            const list = document.getElementById("productList");
+            list.innerHTML = "";
+            productArray.forEach(product => {
+                list.innerHTML += `
+          <div class="product">
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p><strong>Price:</strong> $${product.price}</p>
+          </div>
+        `;
+            });
+        }
+
+        function searchProduct() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const result = products.filter(p => p.name.toLowerCase().includes(query));
+            displayProducts(result);
+        }
+
+        function sortProducts() {
+            let arr = [...products];
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = 0; j < arr.length - i - 1; j++) {
+                    if (arr[j].price > arr[j + 1].price) {
+                        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                    }
+                }
+            }
+            displayProducts(arr);
+        }
+
+        // Initial render
+        displayProducts(products);
+    </script>
+    <p>Go to the <a href="sc.html">Products Page</a></p>
+</body>
+
+</html>
